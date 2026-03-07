@@ -135,13 +135,18 @@ const Index = () => {
               ))}
             </div>
             <div className="mt-8">
-              <div className="flex gap-4">
-                <features[2].icon className="w-5 h-5 text-gold flex-shrink-0 mt-1" strokeWidth={1.5} />
-                <div>
-                  <h4 className="text-[0.85rem] tracking-[0.06em] font-semibold text-charcoal mb-1">{features[2].title}</h4>
-                  <p className="text-[0.82rem] text-soft leading-relaxed">{features[2].desc}</p>
-                </div>
-              </div>
+              {(() => {
+                const F = features[2];
+                return (
+                  <div className="flex gap-4">
+                    <F.icon className="w-5 h-5 text-gold flex-shrink-0 mt-1" strokeWidth={1.5} />
+                    <div>
+                      <h4 className="text-[0.85rem] tracking-[0.06em] font-semibold text-charcoal mb-1">{F.title}</h4>
+                      <p className="text-[0.82rem] text-soft leading-relaxed">{F.desc}</p>
+                    </div>
+                  </div>
+                );
+              })()}
             </div>
             <Link to="/about" className="inline-block mt-10 bg-charcoal text-gold px-8 py-3.5 text-[0.75rem] tracking-[0.2em] uppercase font-semibold no-underline hover:bg-mid transition-all duration-300">
               Learn More About Us
