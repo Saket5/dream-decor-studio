@@ -1,28 +1,9 @@
 import { Link } from "react-router-dom";
 import Layout from "@/components/Layout";
 import { useEffect, useRef, useState } from "react";
-import { Shield, MapPin, Headphones, ChevronDown, Star } from "lucide-react";
-
-const stats = [
-  { number: 500, suffix: "+", label: "Projects Completed" },
-  { number: 350, suffix: "+", label: "Happy Clients" },
-  { number: 12, suffix: "+", label: "Premium Product Lines" },
-  { number: 7, suffix: "+", label: "Years of Experience" },
-];
-
-const features = [
-  { icon: Shield, title: "Quality Assured Products", desc: "Every product in our catalogue is rigorously tested to meet durability and finish standards." },
-  { icon: MapPin, title: "Pan-Bengal Network", desc: "Serving architects, contractors, builders, and homeowners across the entire state." },
-  { icon: Headphones, title: "Expert Consultation", desc: "Our design experts guide you from selection to installation for a seamless experience." },
-];
-
-const testimonials = [
-  { name: "Rajesh Dutta", role: "Business Owner, Kolkata", initials: "RD", text: "Nashnal Trend Decor transformed our entire office with their WPC panels and glass films. The quality is outstanding and the team was incredibly professional. Highly recommend!" },
-  { name: "Priya Sharma", role: "Interior Designer, Howrah", initials: "PS", text: "Exceptional product range at very competitive pricing. We've been sourcing laminates and floorings for our residential projects from them for 3 years now. Never disappointed." },
-  { name: "Arjun Mukherjee", role: "Hotel Developer, Siliguri", initials: "AM", text: "The bamboo charcoal panels we used for our hotel lobby have been an absolute showstopper. Guests always comment on the elegance. Nashnal delivered exactly what was promised." },
-];
-
-const clients = ["Merlin Group", "Srijan Realty", "Ambuja Neotia", "PS Group", "DTC Builders", "Bengal Shrachi", "Orion Constructions", "Nandan Homes", "Siddha Group", "Unimark Group"];
+import { ChevronDown, Star, ChevronLeft, ChevronRight } from "lucide-react";
+import { stats, features, testimonials } from "@/data/index";
+import { products } from "@/data/products";
 
 function Counter({ target, suffix }: { target: number; suffix: string }) {
   const [count, setCount] = useState(0);
@@ -58,6 +39,21 @@ function Counter({ target, suffix }: { target: number; suffix: string }) {
 }
 
 const Index = () => {
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % products.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + products.length) % products.length);
+  };
+
+  useEffect(() => {
+    const timer = setInterval(nextSlide, 5000);
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <Layout>
       {/* Hero */}
@@ -74,7 +70,7 @@ const Index = () => {
             Kolkata · West Bengal · Est. 2018
           </div>
           <h1 className="font-display text-[clamp(2.2rem,5.5vw,4.6rem)] font-light text-ivory leading-[1.12] mb-5 animate-fade-up" style={{ animationDelay: '0.2s', opacity: 0, animationFillMode: 'forwards' }}>
-            West Bengal's Trusted Choice for <em className="text-gold-light">Modern, Durable,</em> & Affordable Interiors & Exteriors
+            West Bengal's Trusted Choice for <em className="text-gold-light">Modern, Durable,</em> & Affordable Interior & Exterior Products
           </h1>
           <p className="font-heading text-[clamp(0.9rem,2vw,1.2rem)] tracking-[0.22em] text-gold uppercase mt-3.5 animate-fade-up" style={{ animationDelay: '0.4s', opacity: 0, animationFillMode: 'forwards' }}>
             New Trend Setter
@@ -148,39 +144,134 @@ const Index = () => {
                 );
               })()}
             </div>
-            <Link to="/about" className="inline-block mt-10 bg-charcoal text-gold px-8 py-3.5 text-[0.75rem] tracking-[0.2em] uppercase font-semibold no-underline hover:bg-mid transition-all duration-300">
-              Learn More About Us
-            </Link>
-          </div>
-          <div className="relative">
-            <img
-              src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=800&q=80"
-              alt="Modern interior design showcase"
-              className="w-full h-[500px] object-cover"
-              loading="lazy"
-            />
           </div>
         </div>
       </section>
 
-      {/* Client Marquee */}
-      <div className="bg-ivory border-y border-line overflow-hidden py-1">
-        <div className="text-center mb-4 pt-6">
+      {/* Products Carousel */}
+      <section className="py-24 px-[8vw]">
+        <div className="text-center mb-16">
           <span className="text-[0.62rem] tracking-[0.35em] uppercase text-gold font-medium">
-            Trusted by Leading Developers & Architects Across Bengal
+            Our Collection
           </span>
+          <h2 className="font-display text-[clamp(2rem,4.5vw,3.4rem)] font-light leading-[1.15] text-charcoal mt-4">
+            Featured Products
+          </h2>
+          <p className="text-[0.9rem] text-soft max-w-2xl mx-auto mt-4">
+            Explore our premium range of interior and exterior finishing solutions
+          </p>
         </div>
-        <div className="flex animate-marquee whitespace-nowrap pb-6">
-          {[...clients, ...clients].map((client, i) => (
-            <span
-              key={i}
-              className="px-10 font-display text-[1.05rem] text-soft tracking-wide border-r border-line hover:text-gold transition-colors"
+
+        {/* Carousel Container */}
+        <div className="relative">
+          {/* Main Carousel */}
+          <div className="relative overflow-hidden rounded-lg">
+            <div className="flex transition-transform duration-500 ease-out"
+              style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
+              {products.map((product, index) => (
+                <div key={product.num} className="min-w-full">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                    {/* Image */}
+                    <div className="relative h-[400px] overflow-hidden rounded-lg">
+                      <img
+                        src={product.images[0]}
+                        alt={product.name}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute top-4 left-4 bg-charcoal text-gold px-3 py-1 text-[0.65rem] tracking-[0.15em] uppercase font-semibold">
+                        Product {product.num}
+                      </div>
+                    </div>
+
+                    {/* Content */}
+                    <div className="space-y-6">
+                      <div>
+                        <h3 className="font-display text-[clamp(1.8rem,3.5vw,2.6rem)] font-light text-charcoal mb-4">
+                          {product.name}
+                        </h3>
+                        <p className="text-[0.92rem] text-soft leading-[1.8] mb-6">
+                          {product.details}
+                        </p>
+                      </div>
+
+                      {/* Features */}
+                      <div>
+                        <h4 className="text-[0.85rem] tracking-[0.06em] font-semibold text-charcoal mb-3 uppercase">
+                          Key Features
+                        </h4>
+                        <ul className="space-y-2">
+                          {product.features.slice(0, 3).map((feature, i) => (
+                            <li key={i} className="flex items-start gap-2">
+                              <div className="w-1 h-1 bg-gold rounded-full mt-2 flex-shrink-0" />
+                              <span className="text-[0.8rem] text-soft">{feature}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      {/* CTA */}
+                      <div className="flex gap-4 pt-4">
+                        <Link
+                          to={`/products/${product.num}`}
+                          className="bg-charcoal text-gold px-6 py-3 text-[0.75rem] tracking-[0.15em] uppercase font-semibold no-underline hover:bg-mid transition-all duration-300"
+                        >
+                          Learn More
+                        </Link>
+                        <Link
+                          to="/quote"
+                          className="border border-charcoal text-charcoal px-6 py-3 text-[0.75rem] tracking-[0.15em] uppercase font-semibold no-underline hover:bg-charcoal hover:text-gold transition-all duration-300"
+                        >
+                          Get Quote
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Navigation Buttons */}
+            <button
+              onClick={prevSlide}
+              className="absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-white p-3 rounded-full shadow-lg transition-all"
             >
-              {client}
-            </span>
-          ))}
+              <ChevronLeft className="w-5 h-5 text-charcoal" />
+            </button>
+            <button
+              onClick={nextSlide}
+              className="absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-white p-3 rounded-full shadow-lg transition-all"
+            >
+              <ChevronRight className="w-5 h-5 text-charcoal" />
+            </button>
+          </div>
+
+          {/* Dots Navigation */}
+          <div className="flex justify-center gap-2 mt-8">
+            {products.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentSlide(index)}
+                className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                  index === currentSlide
+                    ? 'bg-charcoal w-8'
+                    : 'bg-gray-300 hover:bg-gray-400'
+                }`}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
+          </div>
+
+          {/* View All */}
+          <div className="text-center mt-12">
+            <Link
+              to="/products"
+              className="inline-block bg-gold text-charcoal px-8 py-3.5 text-[0.75rem] tracking-[0.2em] uppercase font-semibold no-underline hover:bg-gold-dark hover:text-ivory transition-all duration-300"
+            >
+              View All Products
+            </Link>
+          </div>
         </div>
-      </div>
+      </section>
 
       {/* Testimonials */}
       <section className="py-24 px-[8vw]">

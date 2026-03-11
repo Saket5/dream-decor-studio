@@ -30,17 +30,11 @@ const Navbar = () => {
     >
       {/* Logo */}
       <Link to="/" className="flex items-center gap-3 no-underline">
-        <div className="w-10 h-10 bg-charcoal flex items-center justify-center">
-          <span className="font-heading text-gold text-lg font-normal">N</span>
-        </div>
-        <div className="flex flex-col leading-tight">
-          <span className="font-heading text-[clamp(0.65rem,1.3vw,0.82rem)] tracking-[0.12em] text-charcoal">
-            NASHNAL TREND DECOR
-          </span>
-          <span className="text-[0.6rem] tracking-[0.22em] text-soft uppercase">
-            LLP · Interiors & Exteriors
-          </span>
-        </div>
+        <img 
+          src="/logo.png" 
+          alt="Nashnal Trend Decor Logo" 
+          className="h-12 w-auto object-contain"
+        />
       </Link>
 
       {/* Desktop Links */}

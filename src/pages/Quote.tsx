@@ -1,18 +1,7 @@
 import Layout from "@/components/Layout";
 import { useState } from "react";
 import { toast } from "sonner";
-
-const productOptions = [
-  "PVC & WPC Panels",
-  "Louvers",
-  "Bamboo Charcoal",
-  "Laminates",
-  "Wallpapers",
-  "Glass Films",
-  "Decorative Panels",
-  "Floorings",
-  "Other",
-];
+import { productOptions } from "@/data/quote";
 
 const Quote = () => {
   const [formData, setFormData] = useState({
@@ -53,7 +42,7 @@ const Quote = () => {
             {[
               "Free consultation with our design experts",
               "Competitive pricing on all products",
-              "Samples available for all materials",
+              "Samples available for all materials at store",
             ].map((point) => (
               <div key={point} className="flex items-start gap-3.5">
                 <div className="w-2 h-2 bg-gold rounded-full mt-1.5 flex-shrink-0" />

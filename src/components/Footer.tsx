@@ -6,19 +6,11 @@ const Footer = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
         {/* Brand */}
         <div>
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-10 h-10 bg-gold/20 flex items-center justify-center">
-              <span className="font-heading text-gold text-lg">N</span>
-            </div>
-            <div className="flex flex-col leading-tight">
-              <span className="font-heading text-[0.75rem] tracking-[0.12em] text-ivory">
-                NASHNAL TREND DECOR
-              </span>
-              <span className="text-[0.55rem] tracking-[0.22em] text-gold-light uppercase">
-                LLP
-              </span>
-            </div>
-          </div>
+          <img 
+            src="/logo.png" 
+            alt="Nashnal Trend Decor Logo" 
+            className="h-16 w-auto object-contain mb-6"
+          />
           <p className="text-[0.82rem] text-ivory/50 leading-relaxed max-w-[280px]">
             West Bengal's trusted choice for modern, durable, and affordable interiors and exteriors. Bringing global quality to local spaces since 2018.
           </p>
