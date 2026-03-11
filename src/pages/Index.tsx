@@ -134,6 +134,8 @@ const Index = () => {
   }, []);
 
   return (
+    <>
+      {!introComplete && <WelcomeIntro onComplete={() => setIntroComplete(true)} />}
     <Layout>
       {/* Hero */}
       <section className="relative min-h-[calc(100vh-72px)] flex items-center justify-center overflow-hidden">
