@@ -14,7 +14,7 @@ export const stats: Stat[] = [
 ];
 
 export interface Feature {
-  icon: React.ComponentType<{ className?: string }>;
+  icon: React.ComponentType<any>;
   title: string;
   desc: string;
 }
