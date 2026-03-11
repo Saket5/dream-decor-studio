@@ -398,6 +398,7 @@ const Index = () => {
         </Link>
       </section>
     </Layout>
+    </>
   );
 };
 
