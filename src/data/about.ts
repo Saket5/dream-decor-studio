@@ -1,7 +1,7 @@
 import { Shield, Users, Gem, Award } from "lucide-react";
 
 export interface Value {
-  icon: React.ComponentType<{ className?: string }>;
+  icon: React.ComponentType<any>;
   title: string;
   desc: string;
 }
