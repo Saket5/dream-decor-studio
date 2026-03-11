@@ -38,8 +38,87 @@ function Counter({ target, suffix }: { target: number; suffix: string }) {
   );
 }
 
+function WelcomeIntro({ onComplete }: { onComplete: () => void }) {
+  const [phase, setPhase] = useState<'logo' | 'tagline' | 'doors' | 'done'>('logo');
+
+  useEffect(() => {
+    const t1 = setTimeout(() => setPhase('tagline'), 800);
+    const t2 = setTimeout(() => setPhase('doors'), 2200);
+    const t3 = setTimeout(() => {
+      setPhase('done');
+      onComplete();
+    }, 3200);
+    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
+  }, [onComplete]);
+
+  if (phase === 'done') return null;
+
+  return (
+    <div className="fixed inset-0 z-[9999] pointer-events-none">
+      {/* Left Door */}
+      <div
+        className="absolute top-0 left-0 w-1/2 h-full bg-charcoal transition-transform ease-[cubic-bezier(0.76,0,0.24,1)]"
+        style={{
+          transform: phase === 'doors' ? 'translateX(-100%)' : 'translateX(0)',
+          transitionDuration: '1s',
+        }}
+      />
+      {/* Right Door */}
+      <div
+        className="absolute top-0 right-0 w-1/2 h-full bg-charcoal transition-transform ease-[cubic-bezier(0.76,0,0.24,1)]"
+        style={{
+          transform: phase === 'doors' ? 'translateX(100%)' : 'translateX(0)',
+          transitionDuration: '1s',
+        }}
+      />
+      {/* Gold line separator */}
+      <div
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-full bg-gold/40 transition-opacity duration-500"
+        style={{ opacity: phase === 'doors' ? 0 : 1 }}
+      />
+      {/* Center content */}
+      <div
+        className="absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-500"
+        style={{ opacity: phase === 'doors' ? 0 : 1 }}
+      >
+        <h1
+          className="font-display text-[clamp(1.6rem,4vw,3rem)] font-light text-gold tracking-[0.08em] transition-all duration-700"
+          style={{
+            opacity: phase === 'logo' || phase === 'tagline' ? 1 : 0,
+            transform: phase === 'logo' ? 'translateY(8px)' : 'translateY(0)',
+          }}
+        >
+          Nashnal Trend Decor
+        </h1>
+        <div
+          className="mt-3 overflow-hidden"
+          style={{ maxHeight: phase === 'tagline' ? '40px' : '0', transition: 'max-height 0.6s ease' }}
+        >
+          <p className="text-[0.65rem] tracking-[0.4em] uppercase text-ivory/50 font-medium">
+            Welcome to Modern Living
+          </p>
+        </div>
+        {/* Decorative dots */}
+        <div
+          className="flex gap-1.5 mt-6 transition-opacity duration-500"
+          style={{ opacity: phase === 'tagline' ? 1 : 0 }}
+        >
+          {[0, 1, 2].map(i => (
+            <span
+              key={i}
+              className="w-1 h-1 rounded-full bg-gold/60"
+              style={{ animation: `pulse 1s ease-in-out ${i * 0.2}s infinite` }}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 const Index = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [introComplete, setIntroComplete] = useState(false);
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % products.length);
@@ -55,6 +134,8 @@ const Index = () => {
   }, []);
 
   return (
+    <>
+      {!introComplete && <WelcomeIntro onComplete={() => setIntroComplete(true)} />}
     <Layout>
       {/* Hero */}
       <section className="relative min-h-[calc(100vh-72px)] flex items-center justify-center overflow-hidden">
@@ -317,6 +398,7 @@ const Index = () => {
         </Link>
       </section>
     </Layout>
+    </>
   );
 };
 
