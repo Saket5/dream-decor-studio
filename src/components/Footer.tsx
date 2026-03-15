@@ -7,7 +7,7 @@ const Footer = () => {
         {/* Brand */}
         <div>
           <img 
-            src="/logo.png" 
+            src="https://res.cloudinary.com/dtjgaihu7/image/upload/v1773333409/NTD_JPG-removebg-preview_z0ylcu.png" 
             alt="Nashnal Trend Decor Logo" 
             className="h-16 w-auto object-contain mb-6"
           />

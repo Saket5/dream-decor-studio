@@ -118,7 +118,10 @@ function WelcomeIntro({ onComplete }: { onComplete: () => void }) {
 
 const Index = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [introComplete, setIntroComplete] = useState(false);
+  const [introComplete, setIntroComplete] = useState(() => {
+    // Check if animation already played in this session
+    return sessionStorage.getItem('dreamDecorIntroPlayed') === 'true';
+  });
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % products.length);
@@ -128,6 +131,12 @@ const Index = () => {
     setCurrentSlide((prev) => (prev - 1 + products.length) % products.length);
   };
 
+  const handleIntroComplete = () => {
+    setIntroComplete(true);
+    // Mark animation as played in this session
+    sessionStorage.setItem('dreamDecorIntroPlayed', 'true');
+  };
+
   useEffect(() => {
     const timer = setInterval(nextSlide, 5000);
     return () => clearInterval(timer);
@@ -135,7 +144,7 @@ const Index = () => {
 
   return (
     <>
-      {!introComplete && <WelcomeIntro onComplete={() => setIntroComplete(true)} />}
+      {!introComplete && <WelcomeIntro onComplete={handleIntroComplete} />}
     <Layout>
       {/* Hero */}
       <section className="relative min-h-[calc(100vh-72px)] flex items-center justify-center overflow-hidden">
@@ -146,7 +155,7 @@ const Index = () => {
           }}
         />
         <div className="absolute inset-0 bg-charcoal/70" />
-        <div className="relative z-10 text-center px-[5vw] max-w-4xl">
+        <div className="relative z-10 text-center px-[5vw] max-w-4xl pb-28">
           <div className="text-[0.62rem] tracking-[0.35em] uppercase text-gold font-medium mb-4 animate-fade-up">
             Kolkata · West Bengal · Est. 2018
           </div>

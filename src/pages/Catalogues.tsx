@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Layout from "@/components/Layout";
-import { MessageCircle } from "lucide-react";
+import { MessageCircle, Loader } from "lucide-react";
 import { catalogues } from "@/data/catalogues";
 import {
   Dialog,
@@ -17,6 +17,7 @@ import { toast } from "sonner";
 
 const Catalogues = () => {
   const [selectedCatalogue, setSelectedCatalogue] = useState<string>("");
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -26,26 +27,57 @@ const Catalogues = () => {
   });
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
 
-    const message = `Hi, I'm interested in the "${selectedCatalogue}" catalogue.
+    try {
+      // Validate phone number
+      if (!formData.phone || formData.phone.trim().length < 10) {
+        toast.error("Please enter a valid phone number");
+        setIsLoading(false);
+        return;
+      }
 
-Name: ${formData.firstName} ${formData.lastName}
-Email: ${formData.email || 'Not provided'}
-Phone: ${formData.phone}
-Message: ${formData.message}
+      // Get the selected catalogue object to get PDF link
+      const selectedCat = catalogues.find(cat => cat.title === selectedCatalogue);
+      if (!selectedCat) {
+        throw new Error("Catalogue not found");
+      }
 
-Please send me the catalogue.`;
+      // Call the WhatsApp API
+      const response = await fetch("/api/send-whatsapp-message", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          phoneNumber: formData.phone,
+          catalogueName: selectedCatalogue,
+          customerName: `${formData.firstName} ${formData.lastName}`,
+          customerEmail: formData.email,
+          customerMessage: formData.message,
+          pdfLink: selectedCat.pdfLink,
+        }),
+      });
 
-    const whatsappUrl = `https://wa.me/919876543210?text=${encodeURIComponent(message)}`;
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to send catalogue");
+      }
 
-    window.open(whatsappUrl, '_blank');
-    toast.success("Opening WhatsApp with your catalogue request!");
+      const data = await response.json();
+      toast.success("Catalogue sent successfully via WhatsApp! 🎉");
 
-    // Reset form
-    setFormData({ firstName: "", lastName: "", email: "", phone: "", message: "" });
-    setIsDialogOpen(false);
+      // Reset form
+      setFormData({ firstName: "", lastName: "", email: "", phone: "", message: "" });
+      setIsDialogOpen(false);
+    } catch (error) {
+      console.error("Error:", error);
+      toast.error(error instanceof Error ? error.message : "Failed to send catalogue. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -187,9 +219,17 @@ Please send me the catalogue.`;
                         </div>
                         <Button
                           type="submit"
-                          className="w-full bg-charcoal text-gold hover:bg-mid transition-all duration-300 text-[0.75rem] tracking-[0.2em] uppercase font-semibold"
+                          disabled={isLoading}
+                          className="w-full bg-charcoal text-gold hover:bg-mid transition-all duration-300 text-[0.75rem] tracking-[0.2em] uppercase font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                         >
-                          Send via WhatsApp
+                          {isLoading ? (
+                            <>
+                              <Loader className="w-4 h-4 animate-spin" />
+                              Sending...
+                            </>
+                          ) : (
+                            "Send via WhatsApp"
+                          )}
                         </Button>
                       </form>
                     </DialogContent>

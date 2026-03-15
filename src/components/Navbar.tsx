@@ -31,7 +31,7 @@ const Navbar = () => {
       {/* Logo */}
       <Link to="/" className="flex items-center gap-3 no-underline">
         <img 
-          src="/logo.png" 
+          src="https://res.cloudinary.com/dtjgaihu7/image/upload/v1773333409/NTD_JPG-removebg-preview_z0ylcu.png" 
           alt="Nashnal Trend Decor Logo" 
           className="h-12 w-auto object-contain"
         />
