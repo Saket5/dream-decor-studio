@@ -45,7 +45,17 @@ const Catalogues = () => {
         throw new Error("Catalogue not found");
       }
 
-      // Call the WhatsApp API
+      // Mock API response for local development (API only works on Vercel)
+      if (import.meta.env.DEV) {
+        await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate network delay
+        toast.success("✓ Catalogue request received! In production, this would send via WhatsApp.");
+        setFormData({ firstName: "", lastName: "", email: "", phone: "", message: "" });
+        setIsDialogOpen(false);
+        setIsLoading(false);
+        return;
+      }
+
+      // Call the WhatsApp API (only works on Vercel production)
       const response = await fetch("/api/send-whatsapp-message", {
         method: "POST",
         headers: {
@@ -62,8 +72,14 @@ const Catalogues = () => {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Failed to send catalogue");
+        const text = await response.text();
+        console.error("API Error Response:", text);
+        try {
+          const errorData = JSON.parse(text);
+          throw new Error(errorData.error || `Error: ${response.status}`);
+        } catch {
+          throw new Error(`API Error: ${response.status} - ${text || 'No response'}`);
+        }
       }
 
       const data = await response.json();
