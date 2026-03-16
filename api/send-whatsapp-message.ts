@@ -3,7 +3,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 const WHATSAPP_PHONE_NUMBER_ID = process.env.WHATSAPP_PHONE_NUMBER_ID;
 const WHATSAPP_BUSINESS_ACCOUNT_ID = process.env.WHATSAPP_BUSINESS_ACCOUNT_ID;
 const WHATSAPP_ACCESS_TOKEN = process.env.WHATSAPP_ACCESS_TOKEN;
-const WHATSAPP_API_URL = `https://graph.instagram.com/v18.0/${WHATSAPP_PHONE_NUMBER_ID}/messages`;
+const WHATSAPP_API_URL = `https://graph.facebook.com/v18.0/${WHATSAPP_PHONE_NUMBER_ID}/messages`;
 
 interface MessageData {
   phoneNumber: string;
@@ -41,36 +41,27 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     // Validate environment variables
     if (!WHATSAPP_PHONE_NUMBER_ID || !WHATSAPP_ACCESS_TOKEN) {
-      console.error('Missing WhatsApp configuration');
-      console.error('WHATSAPP_PHONE_NUMBER_ID:', WHATSAPP_PHONE_NUMBER_ID ? '✓ set' : '❌ missing');
-      console.error('WHATSAPP_ACCESS_TOKEN:', WHATSAPP_ACCESS_TOKEN ? '✓ set' : '❌ missing');
-      console.error('WHATSAPP_BUSINESS_ACCOUNT_ID:', WHATSAPP_BUSINESS_ACCOUNT_ID ? '✓ set' : '❌ missing');
+      console.error('Missing WhatsApp configuration: check environment variables are set');
       return res.status(500).json({
-        error: 'Server configuration error: Missing WhatsApp credentials in environment variables',
-        debug: {
-          hasPhoneId: !!WHATSAPP_PHONE_NUMBER_ID,
-          hasToken: !!WHATSAPP_ACCESS_TOKEN,
-        },
+        error: 'Server configuration error: Missing WhatsApp credentials',
       });
     }
 
     // Format phone number - remove all non-digits
-    const formattedPhone = phoneNumber.replace(/\D/g, '');
-    
-    // Add country code if missing (default to +91 for India)
-    const finalPhone = formattedPhone.startsWith('91') 
-      ? `91${formattedPhone}` 
-      : formattedPhone.length === 10 
-      ? `91${formattedPhone}`
-      : formattedPhone;
+    let formattedPhone = phoneNumber.replace(/\D/g, '');
 
-    console.log('Sending WhatsApp message to:', finalPhone);
+    // Add country code if missing (default to +91 for India)
+    if (formattedPhone.length === 10) {
+      formattedPhone = `91${formattedPhone}`;
+    }
+
+    console.log('Sending WhatsApp message to:', formattedPhone);
 
     // Send intro text message
     const introPayload = {
       messaging_product: 'whatsapp',
       type: 'text',
-      to: finalPhone,
+      to: formattedPhone,
       text: {
         body: `Hello ${customerName || 'there'}! 👋\n\nThank you for your interest in our ${catalogueName} catalogue from Dream Decor Studio! 🎨\n\nPlease find the detailed PDF attached below. Feel free to reach out with any questions!`,
       },
@@ -93,7 +84,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       } catch {
         errorData = { error: `HTTP ${introResponse.status}`, text: await introResponse.text() };
       }
-      console.error('WhatsApp API Error (intro):', errorData);
+      console.error('WhatsApp API Error (intro):', JSON.stringify(errorData));
       return res.status(introResponse.status).json({
         error: 'Failed to send introduction message',
         details: errorData,
@@ -106,7 +97,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const documentPayload = {
       messaging_product: 'whatsapp',
       type: 'document',
-      to: finalPhone,
+      to: formattedPhone,
       document: {
         link: pdfLink,
         caption: catalogueName,
@@ -130,7 +121,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       } catch {
         errorData = { error: `HTTP ${documentResponse.status}`, text: await documentResponse.text() };
       }
-      console.error('WhatsApp API Error (document):', errorData);
+      console.error('WhatsApp API Error (document):', JSON.stringify(errorData));
       return res.status(documentResponse.status).json({
         error: 'Failed to send PDF document',
         details: errorData,
@@ -152,3 +143,4 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       details: error instanceof Error ? error.message : String(error),
     });
   }
+}
