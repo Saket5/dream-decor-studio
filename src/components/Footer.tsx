@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { products } from "@/data/products";
 
 const Footer = () => {
   return (
@@ -36,8 +37,14 @@ const Footer = () => {
         <div>
           <h4 className="font-heading text-[0.7rem] tracking-[0.2em] text-gold uppercase mb-6">Products</h4>
           <div className="flex flex-col gap-3">
-            {["PVC & WPC Panels", "Laminates", "Wallpapers", "Floorings", "Glass Films"].map((item) => (
-              <span key={item} className="text-[0.8rem] text-ivory/50">{item}</span>
+            {products.map((product) => (
+              <Link
+                key={product.num}
+                to={`/products/${product.num}`}
+                className="text-[0.8rem] text-ivory/50 no-underline hover:text-gold transition-colors"
+              >
+                {product.name}
+              </Link>
             ))}
           </div>
         </div>
@@ -47,8 +54,8 @@ const Footer = () => {
           <h4 className="font-heading text-[0.7rem] tracking-[0.2em] text-gold uppercase mb-6">Contact</h4>
           <div className="flex flex-col gap-3 text-[0.8rem] text-ivory/50">
             <span>Kolkata, West Bengal</span>
-            <span>+91 98765 43210</span>
-            <span>info@nashnaltrenddecor.com</span>
+            <span>+91 9836291113</span>
+            <span>info@nashnal.com</span>
           </div>
         </div>
       </div>

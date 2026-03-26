@@ -25,14 +25,14 @@ export const catalogues: Catalogue[] = [
     title: "Louvers Collections", 
     desc: "A stylish range of decorative louvers designed to add depth, texture, and a modern architectural look to walls and interior spaces.", 
     pages: "28 Pages", 
-    img: "https://res.cloudinary.com/dtjgaihu7/image/upload/v1773331757/IMG_0932_uykain.jpg",
+    img: "https://res.cloudinary.com/dtjgaihu7/image/upload/v1773331782/IMG_0907_da6ecf.jpg",
     pdfLink: "https://cdn.your-domain.com/catalogues/Louvers-Collections.pdf"
   },
   { 
     title: "Exterior Solutions", 
     desc: "Exterior finishing products for modern facades and outdoor spaces.", 
     pages: "28 Pages", 
-    img: "https://res.cloudinary.com/dtjgaihu7/image/upload/v1773331783/IMG_0908_xafson.jpg",
+    img: "https://res.cloudinary.com/dtjgaihu7/image/upload/v1774176541/IMG-20260322-WA0000_ghiuzc.jpg",
     pdfLink: "https://cdn.your-domain.com/catalogues/Exterior-Solutions.pdf"
   },
   { 

@@ -7,10 +7,10 @@ export interface Stat {
 }
 
 export const stats: Stat[] = [
-  { number: 500, suffix: "+", label: "Projects Completed" },
-  { number: 350, suffix: "+", label: "Happy Clients" },
+  { number: 10000, suffix: "+", label: "Projects Completed" },
+  { number: 1000, suffix: "+", label: "Happy Clients" },
   { number: 12, suffix: "+", label: "Premium Product Lines" },
-  { number: 7, suffix: "+", label: "Years of Experience" },
+  { number: 20, suffix: "+", label: "Years of Experience" },
 ];
 
 export interface Feature {

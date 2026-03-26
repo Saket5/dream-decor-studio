@@ -40,9 +40,9 @@ const Quote = () => {
           </p>
           <div className="flex flex-col gap-5">
             {[
-              "Free consultation with our design experts",
+              "Free consultation with our product experts",
               "Competitive pricing on all products",
-              "Samples available for all materials at store",
+              "Sample display available for all materials at store",
             ].map((point) => (
               <div key={point} className="flex items-start gap-3.5">
                 <div className="w-2 h-2 bg-gold rounded-full mt-1.5 flex-shrink-0" />
