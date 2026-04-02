@@ -65,9 +65,17 @@ const Footer = () => {
         <p className="text-[0.72rem] text-ivory/30">
           © 2025 Nashnal Trend Decor LLP. All rights reserved.
         </p>
-        <p className="text-[0.72rem] text-gold/40 tracking-[0.15em] uppercase">
-          New Trend Setter
-        </p>
+        <div className="flex items-center gap-6">
+          <Link
+            to="/privacy-policy"
+            className="text-[0.72rem] text-ivory/40 no-underline hover:text-gold transition-colors tracking-[0.08em] uppercase"
+          >
+            Privacy Policy
+          </Link>
+          <p className="text-[0.72rem] text-gold/40 tracking-[0.15em] uppercase">
+            New Trend Setter
+          </p>
+        </div>
       </div>
     </footer>
   );
