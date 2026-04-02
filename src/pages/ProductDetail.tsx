@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import Layout from "@/components/Layout";
+import Seo from "@/components/Seo";
 import { products } from "@/data/products";
 import { ArrowLeft, ChevronLeft, ChevronRight, MessageCircle } from "lucide-react";
 import {
@@ -30,15 +31,15 @@ const ProductDetail = () => {
 
   const product = products.find(p => p.num === productId);
 
-  useEffect(() => {
-    if (product) {
-      document.title = `${product.name} - Dream Decor Studio`;
-    }
-  }, [product]);
-
   if (!product) {
     return (
       <Layout>
+        <Seo
+          title="Product Not Found | Nashnal Trend Decor LLP"
+          description="The requested product page could not be found. Browse our full range of interior and exterior products."
+          path={`/products/${productId ?? ""}`}
+          robots="noindex,nofollow"
+        />
         <div className="min-h-[60vh] flex items-center justify-center">
           <div className="text-center">
             <h1 className="text-2xl font-bold text-charcoal mb-4">Product Not Found</h1>
@@ -87,6 +88,25 @@ Please provide more information about this product.`;
 
   return (
     <Layout>
+      <Seo
+        title={`${product.name} | Nashnal Trend Decor LLP`}
+        description={product.desc}
+        path={`/products/${product.num}`}
+        type="product"
+        image={product.images[0]}
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "Product",
+          name: product.name,
+          description: product.desc,
+          image: product.images,
+          brand: {
+            "@type": "Brand",
+            name: "Nashnal Trend Decor LLP"
+          },
+          url: `https://nashnal.com/products/${product.num}`
+        }}
+      />
       {/* Breadcrumb */}
       <div className="bg-cream py-4 px-[8vw]">
         <div className="flex items-center gap-2 text-[0.8rem]">

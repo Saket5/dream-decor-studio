@@ -1,10 +1,16 @@
 import Layout from "@/components/Layout";
+import Seo from "@/components/Seo";
 import { Link } from "react-router-dom";
 import { values, team } from "@/data/about";
 
 const About = () => {
   return (
     <Layout>
+      <Seo
+        title="About Nashnal Trend Decor LLP | Interior Product Experts in Kolkata"
+        description="Learn about Nashnal Trend Decor LLP, our team, values, and experience supplying premium interior and exterior finishing products across West Bengal."
+        path="/about"
+      />
       {/* Hero Split */}
       <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[70vh]">
         <div className="bg-charcoal py-20 px-[6vw] flex flex-col justify-center">

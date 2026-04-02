@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Layout from "@/components/Layout";
+import Seo from "@/components/Seo";
 import { MessageCircle, Loader } from "lucide-react";
 import { catalogues } from "@/data/catalogues";
 import {
@@ -107,6 +108,11 @@ const Catalogues = () => {
 
   return (
     <Layout>
+      <Seo
+        title="Product Catalogues | Nashnal Trend Decor LLP"
+        description="Request and explore detailed catalogues for Nashnal Trend Decor LLP product ranges including panels, laminates, wallpapers, flooring, and decorative solutions."
+        path="/catalogues"
+      />
       {/* Header */}
       <div className="bg-charcoal py-20 px-[8vw] text-center">
         <span className="text-[0.62rem] tracking-[0.35em] uppercase text-gold-light font-medium">

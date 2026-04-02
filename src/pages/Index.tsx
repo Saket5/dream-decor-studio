@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import Layout from "@/components/Layout";
+import Seo from "@/components/Seo";
 import { useEffect, useRef, useState } from "react";
 import { ChevronDown, Star, ChevronLeft, ChevronRight } from "lucide-react";
 import { stats, features, testimonials } from "@/data/index";
@@ -145,6 +146,48 @@ const Index = () => {
   return (
     <>
       {!introComplete && <WelcomeIntro onComplete={handleIntroComplete} />}
+      <Seo
+        title="Nashnal Trend Decor LLP | PVC Panels, Laminates, Wallpapers in Kolkata"
+        description="Nashnal Trend Decor LLP supplies premium PVC panels, WPC panels, laminates, wallpapers, flooring, blinds, and decorative interior products across Kolkata and West Bengal."
+        path="/"
+        jsonLd={[
+          {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            name: "Nashnal Trend Decor LLP",
+            url: "https://nashnal.com",
+            logo: "https://nashnal.com/nashnal-logo.png",
+            email: "info@nashnal.com",
+            telephone: "+91 9836291113",
+            sameAs: [
+              "https://www.instagram.com/nashnaltrenddecor?igsh=MWU1ODY3d3o5ZjJtaQ%3D%3D&utm_source=qr",
+              "https://share.google/zVnY6FposCZKVZXF3"
+            ]
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "LocalBusiness",
+            name: "Nashnal Trend Decor LLP",
+            image: "https://nashnal.com/nashnal-logo.png",
+            url: "https://nashnal.com",
+            telephone: "+91 9836291113",
+            email: "info@nashnal.com",
+            areaServed: "West Bengal",
+            address: {
+              "@type": "PostalAddress",
+              addressLocality: "Kolkata",
+              addressRegion: "West Bengal",
+              addressCountry: "IN"
+            }
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            name: "Nashnal Trend Decor LLP",
+            url: "https://nashnal.com"
+          }
+        ]}
+      />
     <Layout>
       {/* Hero */}
       <section className="relative min-h-[calc(100vh-72px)] flex items-center justify-center overflow-hidden">

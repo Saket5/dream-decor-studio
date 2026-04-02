@@ -1,10 +1,16 @@
 import Layout from "@/components/Layout";
+import Seo from "@/components/Seo";
 import { Link } from "react-router-dom";
 import { products } from "@/data/products";
 
 const Products = () => {
   return (
     <Layout>
+      <Seo
+        title="Interior and Exterior Products | Nashnal Trend Decor LLP"
+        description="Browse PVC panels, WPC panels, laminates, wallpapers, floorings, glass films, decorative panels, and furnishing solutions from Nashnal Trend Decor LLP."
+        path="/products"
+      />
       {/* Page Header */}
       <div className="bg-charcoal py-20 px-[8vw] text-center">
         <span className="text-[0.62rem] tracking-[0.35em] uppercase text-gold-light font-medium">

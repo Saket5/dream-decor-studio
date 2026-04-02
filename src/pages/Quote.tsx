@@ -1,4 +1,5 @@
 import Layout from "@/components/Layout";
+import Seo from "@/components/Seo";
 import { useState } from "react";
 import { toast } from "sonner";
 import { productOptions } from "@/data/quote";
@@ -26,6 +27,11 @@ const Quote = () => {
 
   return (
     <Layout>
+      <Seo
+        title="Request a Quote | Nashnal Trend Decor LLP"
+        description="Request a custom quote for PVC panels, laminates, wallpapers, floorings, and interior finishing products from Nashnal Trend Decor LLP."
+        path="/quote"
+      />
       <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[calc(100vh-72px)]">
         {/* Left Info */}
         <div className="bg-charcoal py-20 px-[6vw] flex flex-col justify-center">

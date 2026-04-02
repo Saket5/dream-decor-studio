@@ -1,6 +1,13 @@
+import Seo from "@/components/Seo";
+
 const PrivacyPolicy = () => {
   return (
     <div className="min-h-screen bg-[#0d0d0d] text-[#e8e0d0] font-body">
+      <Seo
+        title="Privacy Policy | Nashnal Trend Decor LLP"
+        description="Read the Nashnal Trend Decor LLP privacy policy covering data collection, communication, cookies, retention, and your privacy rights."
+        path="/privacy-policy"
+      />
       <header className="border-b border-[#222] bg-[#141414] px-6 py-10 text-center">
         <div className="font-display text-base tracking-[0.25em] uppercase text-[#c9a84c] mb-3">nashnal.com</div>
         <h1 className="font-display text-[clamp(2rem,5vw,3rem)] font-bold">Privacy Policy</h1>
