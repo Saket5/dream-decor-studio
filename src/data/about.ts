@@ -20,7 +20,19 @@ export interface TeamMember {
 }
 
 export const team: TeamMember[] = [
-  { name: "Founder & CEO", role: "Visionary leader with 15+ years in the interior industry", initials: "NK" },
-  { name: "Head of Sales", role: "Driving pan-Bengal distribution and client relationships", initials: "RS" },
-  { name: "Design Consultant", role: "Expert in material selection and interior design trends", initials: "PM" },
+  {
+    name: "Ravi Shankar Jhunjhunwala",
+    role: "Founder - Visionary leader with 25+ years in the interior industry",
+    initials: "RSJ"
+  },
+  {
+    name: "Pankaj Jhunjhunwala",
+    role: "Co-Founder - Driving growth, scaling operations, and leading strategic expansion.",
+    initials: "PJ"
+  },
+  {
+    name: "Dhruv Jhunjhunwala",
+    role: "Managing Partner - Driving Pan-Bengal distribution and client relationships.",
+    initials: "DJ"
+  },
 ];

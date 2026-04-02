@@ -157,7 +157,7 @@ const Index = () => {
         <div className="absolute inset-0 bg-charcoal/70" />
         <div className="relative z-10 text-center px-[5vw] max-w-4xl pb-28">
           <div className="text-[0.62rem] tracking-[0.35em] uppercase text-gold font-medium mb-4 animate-fade-up">
-            Kolkata · West Bengal · Est. 2018
+            Kolkata · West Bengal · Est. 1957
           </div>
           <h1 className="font-display text-[clamp(2.2rem,5.5vw,4.6rem)] font-light text-ivory leading-[1.12] mb-5 animate-fade-up" style={{ animationDelay: '0.2s', opacity: 0, animationFillMode: 'forwards' }}>
             West Bengal's Trusted Choice for <em className="text-gold-light">Modern, Durable,</em> & Affordable Interior & Exterior Products
@@ -197,7 +197,7 @@ const Index = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div>
             <span className="text-[0.62rem] tracking-[0.35em] uppercase text-gold font-medium">
-              7+ Years of Trust
+              15+ Years of Trust
             </span>
             <div className="w-12 h-px bg-gold my-6" />
             <p className="text-[0.62rem] tracking-[0.35em] uppercase text-gold font-medium mb-3.5">

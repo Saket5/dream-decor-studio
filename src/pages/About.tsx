@@ -59,16 +59,28 @@ const About = () => {
             The People Behind the Brand
           </h2>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-          {team.map((member) => (
-            <div key={member.initials} className="bg-ivory border border-line p-8 text-center">
-              <div className="w-20 h-20 bg-charcoal flex items-center justify-center mx-auto mb-6">
-                <span className="font-heading text-gold text-lg tracking-wider">{member.initials}</span>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto items-stretch">
+          {team.map((member) => {
+            const [roleTitle, ...roleDescriptionParts] = member.role.split(" - ");
+            const roleDescription = roleDescriptionParts.join(" - ");
+
+            return (
+              <div key={member.initials} className="bg-ivory border border-line p-8 text-center h-full flex flex-col items-center shadow-sm">
+                <div className="w-20 h-20 bg-charcoal flex items-center justify-center mx-auto mb-6">
+                  <span className="font-heading text-gold text-lg tracking-wider">{member.initials}</span>
+                </div>
+                <h4 className="text-[1.12rem] font-semibold text-charcoal mb-4 leading-snug min-h-[3.5rem] flex items-center justify-center">
+                  {member.name}
+                </h4>
+                <div className="inline-flex items-center justify-center rounded-full border border-gold/30 bg-gold/12 px-4 py-2 text-[0.82rem] font-semibold uppercase tracking-[0.08em] text-charcoal">
+                  {roleTitle}
+                </div>
+                <p className="mt-4 text-[0.88rem] text-soft leading-[1.8] max-w-[260px] flex-1">
+                  {roleDescription}
+                </p>
               </div>
-              <h4 className="text-[0.9rem] font-semibold text-charcoal mb-1">{member.name}</h4>
-              <p className="text-[0.8rem] text-soft leading-relaxed">{member.role}</p>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </section>
 
