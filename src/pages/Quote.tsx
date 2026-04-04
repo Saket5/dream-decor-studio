@@ -3,6 +3,7 @@ import Seo from "@/components/Seo";
 import { useState } from "react";
 import { toast } from "sonner";
 import { productOptions } from "@/data/quote";
+import { createQuoteMessage, openWhatsApp } from "@/lib/whatsapp";
 
 const Quote = () => {
   const [formData, setFormData] = useState({
@@ -17,8 +18,34 @@ const Quote = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    toast.success("Thank you! Your quote request has been submitted. We'll contact you shortly.");
-    setFormData({ name: "", email: "", phone: "", company: "", product: "", area: "", message: "" });
+
+    // Get the WhatsApp phone number from environment variable
+    const whatsappPhone = import.meta.env.VITE_WHATSAPP_PHONE_NUMBER;
+    
+    if (!whatsappPhone) {
+      toast.error("WhatsApp number is not configured. Please contact support.");
+      console.error("VITE_WHATSAPP_PHONE_NUMBER is not set");
+      return;
+    }
+
+    try {
+      // Create a formatted message
+      const message = createQuoteMessage(formData);
+      
+      // Open WhatsApp with the message
+      openWhatsApp(whatsappPhone, message);
+      
+      // Show success message
+      toast.success("Opening WhatsApp... Your message is ready to send!");
+      
+      // Reset form after a short delay
+      setTimeout(() => {
+        setFormData({ name: "", email: "", phone: "", company: "", product: "", area: "", message: "" });
+      }, 500);
+    } catch (error) {
+      console.error("Error opening WhatsApp:", error);
+      toast.error("Failed to open WhatsApp. Please try again.");
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {

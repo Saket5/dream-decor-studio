@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Layout from "@/components/Layout";
 import Seo from "@/components/Seo";
-import { MessageCircle, Loader } from "lucide-react";
+import { MessageCircle } from "lucide-react";
 import { catalogues } from "@/data/catalogues";
 import {
   Dialog,
@@ -15,10 +15,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
+import { createCatalogueMessage, openWhatsApp } from "@/lib/whatsapp";
 
 const Catalogues = () => {
   const [selectedCatalogue, setSelectedCatalogue] = useState<string>("");
-  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -28,72 +28,49 @@ const Catalogues = () => {
   });
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
+
+    // Get the WhatsApp phone number from environment variable
+    const whatsappPhone = import.meta.env.VITE_WHATSAPP_PHONE_NUMBER;
+    
+    if (!whatsappPhone) {
+      toast.error("WhatsApp number is not configured. Please contact support.");
+      console.error("VITE_WHATSAPP_PHONE_NUMBER is not set");
+      return;
+    }
+
+    // Validate phone number
+    if (!formData.phone || formData.phone.trim().length < 10) {
+      toast.error("Please enter a valid phone number");
+      return;
+    }
 
     try {
-      // Validate phone number
-      if (!formData.phone || formData.phone.trim().length < 10) {
-        toast.error("Please enter a valid phone number");
-        setIsLoading(false);
-        return;
-      }
-
-      // Get the selected catalogue object to get PDF link
-      const selectedCat = catalogues.find(cat => cat.title === selectedCatalogue);
-      if (!selectedCat) {
-        throw new Error("Catalogue not found");
-      }
-
-      // Mock API response for local development (API only works on Vercel)
-      if (import.meta.env.DEV) {
-        await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate network delay
-        toast.success("✓ Catalogue request received! In production, this would send via WhatsApp.");
+      // Create a formatted message
+      const message = createCatalogueMessage({
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        phone: formData.phone,
+        catalogueName: selectedCatalogue,
+        message: formData.message,
+      });
+      
+      // Open WhatsApp with the message
+      openWhatsApp(whatsappPhone, message);
+      
+      // Show success message
+      toast.success("Opening WhatsApp... Your request is ready to send!");
+      
+      // Reset form after a short delay
+      setTimeout(() => {
         setFormData({ firstName: "", lastName: "", email: "", phone: "", message: "" });
         setIsDialogOpen(false);
-        setIsLoading(false);
-        return;
-      }
-
-      // Call the WhatsApp API (only works on Vercel production)
-      const response = await fetch("/api/send-whatsapp-message", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          phoneNumber: formData.phone,
-          catalogueName: selectedCatalogue,
-          customerName: `${formData.firstName} ${formData.lastName}`,
-          customerEmail: formData.email,
-          customerMessage: formData.message,
-          pdfLink: selectedCat.pdfLink,
-        }),
-      });
-
-      if (!response.ok) {
-        const text = await response.text();
-        console.error("API Error Response:", text);
-        try {
-          const errorData = JSON.parse(text);
-          throw new Error(errorData.error || `Error: ${response.status}`);
-        } catch {
-          throw new Error(`API Error: ${response.status} - ${text || 'No response'}`);
-        }
-      }
-
-      const data = await response.json();
-      toast.success("Catalogue sent successfully via WhatsApp! 🎉");
-
-      // Reset form
-      setFormData({ firstName: "", lastName: "", email: "", phone: "", message: "" });
-      setIsDialogOpen(false);
+      }, 500);
     } catch (error) {
-      console.error("Error:", error);
-      toast.error(error instanceof Error ? error.message : "Failed to send catalogue. Please try again.");
-    } finally {
-      setIsLoading(false);
+      console.error("Error opening WhatsApp:", error);
+      toast.error("Failed to open WhatsApp. Please try again.");
     }
   };
 
@@ -241,17 +218,10 @@ const Catalogues = () => {
                         </div>
                         <Button
                           type="submit"
-                          disabled={isLoading}
-                          className="w-full bg-charcoal text-gold hover:bg-mid transition-all duration-300 text-[0.75rem] tracking-[0.2em] uppercase font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                          className="w-full bg-charcoal text-gold hover:bg-mid transition-all duration-300 text-[0.75rem] tracking-[0.2em] uppercase font-semibold flex items-center justify-center gap-2"
                         >
-                          {isLoading ? (
-                            <>
-                              <Loader className="w-4 h-4 animate-spin" />
-                              Sending...
-                            </>
-                          ) : (
-                            "Send via WhatsApp"
-                          )}
+                          <MessageCircle className="w-4 h-4" />
+                          Send via WhatsApp
                         </Button>
                       </form>
                     </DialogContent>
