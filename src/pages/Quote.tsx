@@ -104,13 +104,12 @@ const Quote = () => {
                 />
               </div>
               <div className="flex flex-col gap-1.5">
-                <label className="text-[0.72rem] tracking-[0.15em] uppercase text-mid font-medium">Email *</label>
+                <label className="text-[0.72rem] tracking-[0.15em] uppercase text-mid font-medium">Email</label>
                 <input
                   name="email"
                   type="email"
                   value={formData.email}
                   onChange={handleChange}
-                  required
                   className="border border-line bg-ivory/50 px-4 py-3 text-[0.88rem] font-body text-charcoal outline-none transition-colors focus:border-gold"
                   placeholder="email@example.com"
                 />

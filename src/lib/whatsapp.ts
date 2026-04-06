@@ -20,7 +20,7 @@ export const generateWhatsAppLink = (
  */
 export const createQuoteMessage = (formData: {
   name: string;
-  email: string;
+  email?: string;
   phone: string;
   company?: string;
   product: string;
@@ -31,7 +31,7 @@ export const createQuoteMessage = (formData: {
     `*Quote Request*`,
     ``,
     `Name: ${formData.name}`,
-    `Email: ${formData.email}`,
+    ...(formData.email ? [`Email: ${formData.email}`] : []),
     `Phone: ${formData.phone}`,
     ...(formData.company ? [`Company: ${formData.company}`] : []),
     `Product Interest: ${formData.product}`,
