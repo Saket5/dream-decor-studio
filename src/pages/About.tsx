@@ -4,6 +4,11 @@ import { Link } from "react-router-dom";
 import { values, team } from "@/data/about";
 
 const About = () => {
+  const whatsappPhone = import.meta.env.VITE_WHATSAPP_PHONE_NUMBER;
+  const whatsappLink = whatsappPhone
+    ? `https://wa.me/${whatsappPhone.replace(/\D/g, "")}`
+    : "#";
+
   return (
     <Layout>
       <Seo
@@ -24,7 +29,7 @@ const About = () => {
             We are dedicated to providing the best interior and exterior finishing solutions to homeowners, architects, and developers across West Bengal. Our team is committed to excellence and innovation.
           </p>
           <a
-            href="https://wa.me/919876543210"
+            href={whatsappLink}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 text-[#25D366] font-semibold text-[0.82rem] hover:underline"

@@ -67,6 +67,31 @@ export const createCatalogueMessage = (formData: {
 };
 
 /**
+ * Create a product inquiry message from form data
+ */
+export const createProductInquiryMessage = (formData: {
+  firstName: string;
+  lastName: string;
+  email?: string;
+  phone: string;
+  message?: string;
+  productName: string;
+}): string => {
+  const lines = [
+    `Hi, I'm interested in the "${formData.productName}" product.`,
+    ``,
+    `Name: ${formData.firstName} ${formData.lastName}`,
+    `Email: ${formData.email || "Not provided"}`,
+    `Phone: ${formData.phone}`,
+    ...(formData.message ? [`Message: ${formData.message}`] : []),
+    ``,
+    `Please provide more information about this product.`,
+  ];
+
+  return lines.join("\n");
+};
+
+/**
  * Open WhatsApp with a pre-filled message
  */
 export const openWhatsApp = (

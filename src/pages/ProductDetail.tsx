@@ -16,6 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
+import { createProductInquiryMessage, openWhatsApp } from "@/lib/whatsapp";
 
 const ProductDetail = () => {
   const { productId } = useParams();
@@ -55,18 +56,23 @@ const ProductDetail = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const message = `Hi, I'm interested in the "${product.name}" product.
+    const whatsappPhone = import.meta.env.VITE_WHATSAPP_PHONE_NUMBER;
+    if (!whatsappPhone) {
+      toast.error("WhatsApp number is not configured. Please contact support.");
+      console.error("VITE_WHATSAPP_PHONE_NUMBER is not set");
+      return;
+    }
 
-Name: ${formData.firstName} ${formData.lastName}
-Email: ${formData.email || 'Not provided'}
-Phone: ${formData.phone}
-Message: ${formData.message}
+    const message = createProductInquiryMessage({
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      email: formData.email,
+      phone: formData.phone,
+      message: formData.message,
+      productName: product.name,
+    });
 
-Please provide more information about this product.`;
-
-    const whatsappUrl = `https://wa.me/919876543210?text=${encodeURIComponent(message)}`;
-
-    window.open(whatsappUrl, '_blank');
+    openWhatsApp(whatsappPhone, message);
     toast.success("Opening WhatsApp with your product inquiry!");
 
     // Reset form
