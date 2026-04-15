@@ -194,7 +194,7 @@ export const products: Product[] = [
     desc: "Premium flooring collection with vinyl, laminated wooden, SPC, and LVT options for style and comfort.",
     img: "https://res.cloudinary.com/dtjgaihu7/image/upload/v1773331758/IMG_0934_xnoul8.jpg",
     images: [
-      "hhttps://res.cloudinary.com/dtjgaihu7/image/upload/v1773331758/IMG_0934_xnoul8.jpg",
+      "https://res.cloudinary.com/dtjgaihu7/image/upload/v1773331758/IMG_0934_xnoul8.jpg",
       "https://res.cloudinary.com/dtjgaihu7/image/upload/v1773331755/Flooring_1_s2ll8h.png",
       "https://res.cloudinary.com/dtjgaihu7/image/upload/v1773331754/Flooring_2_nzdqnj.png",
       "https://res.cloudinary.com/dtjgaihu7/image/upload/v1773331754/IMG_0935_hlzvmi.jpg",
